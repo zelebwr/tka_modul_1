@@ -168,7 +168,6 @@ To all of the above, we can use the commands below:
 $ docker ps
 # or we can also use
 $ docker container ls
-#
 # 2. To show a list of availabe images
 $ docker images
 # 3. To show the container's resource usage statistics
