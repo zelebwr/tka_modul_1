@@ -102,9 +102,9 @@ To check if the volume is mounted successfully, we can test it by changing the c
 </html>
 ```
 
-If the volume was mounted successfully the [web page](http://localhost:8080) should also be updated automatically updated.
+If the volume was mounted successfully the [local web page](http://localhost:8080) should also be updated automatically updated.
 
-Either just access the [web page](http://localhost:8080) again or just use this command again:
+Either just access the [local web page](http://localhost:8080) again or just use this command again:
 
 ```bash
 $ curl http://localhost:8080
@@ -112,7 +112,7 @@ $ curl http://localhost:8080
 
 ## 8. RCA Docker Internal
 
-Here in the practicum we're needed to:
+Here, in the practicum we're needed to:
 
 1. Check the container's directory
 2. Check the contents of the index.html through the container
@@ -132,4 +132,60 @@ Usually we can use the command below to output the log of the container, using t
 $ docker logs -f eva-container-b08
 ```
 
-But since the logs is already binded with the `
+But since the `/var/log/nginx` is already mounted to `eva-project/logs` that won't work, since usual logs are now not going to the container's Standar Ouptut stream.
+
+So, what we can do is to check the log of the physical file live to check the log. We can do that by doing the commands below:
+
+```bash
+$ docker exec -it eva-container-b08 bash
+$ cd /var/log/nginx/ && tail -f access.log
+```
+
+To check if the log file is actually working live, we can just try accessing the [local web page](http://localhost:8080) through our browser, or just use:
+
+```bash
+$ curl http://localhost:8080
+```
+
+## 9. Showing Docker Processes
+
+For this step, our practicum wants us to:
+
+1. Show a list of running containers
+2. Show a list of available images
+3. Show the container's resource usage statistics
+
+To all of the above, we can use the commands below:
+
+```bash
+# 1. To show a list of running containers
+$ docker ps
+# or we can also use
+$ docker container ls
+#
+# 2. To show a list of availabe images
+$ docker images
+# 3. To show the container's resource usage statistics
+$ docker stats eva-container-b08
+```
+
+## 10. Docker Cleanup
+
+After doing all of the above (from number 1-9), in the last step, we're asked to clean up all of that.
+
+The cleanup consists of:
+
+1. Stopping the running container
+2. Removing the container
+3. Removing the docker images
+
+For all of those we can use these commands:
+
+```bash
+# To stop the running container
+$ docker stop eva-container-b08
+# To remove the container
+$ docker rm eva-container-b08
+# To remove the Docker Image
+$ docker rmi eva-web-b08:v1
+```
